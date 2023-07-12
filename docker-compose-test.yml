@@ -78,9 +78,7 @@ services:
       test:
       
   schema-test:
-    build:
-      context: .
-      dockerfile: Dockerfile.test
+    image: ghcr.io/samagrax-rcw/schema:latest
     depends_on:
       db-test:
         condition: service_healthy
