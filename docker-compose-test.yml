@@ -88,6 +88,12 @@ services:
       DATABASE_URL: postgres://postgres:postgres@schema-db-test:5432/postgres
       IDENTITY_BASE_URL: "http://identity-test:3332"
       ENABLE_AUTH: "false"
+    healthcheck:
+      test:
+        [ "CMD-SHELL", "curl -f http://localhost:3332/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       test:
 
