@@ -47,7 +47,7 @@ services:
       VAULT_ADDR: "http://vault-test:8200"
       # This will be replaced automatically on initialisation 
       # make compose-init will call setup_vault.sh
-      VAULT_TOKEN: hvs.WccBWI4moN6WL3Cg64GYW3zi
+      VAULT_TOKEN: hvs.jZnKqaT0CgKaAyijZ2EDoOoB
       VAULT_BASE_URL: "http://vault-test:8200/v1"
       VAULT_ROOT_PATH: "http://vault-test:8200/v1/kv"
       VAULT_TIMEOUT: 5000
@@ -80,7 +80,7 @@ services:
   schema-test:
     image: ghcr.io/samagrax-rcw/schema:latest
     depends_on:
-      db-test:
+      schema-db-test:
         condition: service_healthy
       identity-test:
         condition: service_healthy
