@@ -90,7 +90,7 @@ services:
       ENABLE_AUTH: "false"
     healthcheck:
       test:
-        [ "CMD-SHELL", "curl -f http://localhost:3332/health || exit 1" ]
+        [ "CMD-SHELL", "curl -f http://localhost:3333/health || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 5
