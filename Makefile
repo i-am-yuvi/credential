@@ -1,25 +1,9 @@
-IMAGE:=dockerhub/sunbird-rc-credentials-service
+.PHONY: test
 
-.PHONY: docker publish test
-
-docker:
-	@docker build -t $(IMAGE) .
-publish:
-	@docker push $(IMAGE)
 test:
-#	Resetting vault of identity-service before running the tests
-	make -C ../identity-service stop
-	make -C ../credential-schema stop
-	make -C ../identity-service vault-reset
-# 	Creating an external docker network to connnect services in different compose
-	@docker network create rcw-test || echo ""
-#	Starting dependent services 
-	make -C ../identity-service compose-init
-	make -C ../credential-schema compose-init
-	@docker-compose -f docker-compose-test.yml down
-	@docker-compose  -f docker-compose-test.yml up --build --abort-on-container-exit
-
-#	Stopping all dependent services
-	make -C ../identity-service stop
-	make -C ../identity-service vault-reset
-	make -C ../credential-schema stop
+	wget --no-clobber https://github.com/SamagraX-RCW/identity/raw/main/vault/vault.json
+	wget --no-clobber https://github.com/SamagraX-RCW/identity/raw/main/build/setup_vault_gha.sh 
+	bash setup_vault_gha.sh docker-compose-test.yml vault-test
+	docker-compose -f docker-compose-test.yml up -d identity-test
+	docker-compose -f docker-compose-test.yml up -d schema-test
+	docker-compose -f docker-compose-test.yml up credential-test --abort-on-container-exit
