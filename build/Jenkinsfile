@@ -3,7 +3,7 @@ node() {
         properties([
             parameters([
                 string(name: 'docker_repo', defaultValue: 'samagrax-rcw/credential', description: 'Docker Image Name'),
-                string(name: 'docker_server', defaultValue: "$docker_registry", description: 'Docker Registry URL'),                
+                string(name: 'docker_registry', defaultValue: "$docker_registry", description: 'Docker Registry URL'),                
             ])
         ])
     }
@@ -16,22 +16,22 @@ node() {
 
     stage('docker-build') {
         sh '''
-        docker build -f Dockerfile -t $docker_server/$docker_repo:$commit_id .
+        docker build -f Dockerfile -t $docker_registry/$docker_repo:$commit_id .
         '''
         if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master') {
             sh '''
-            docker build -f Dockerfile -t $docker_server/$docker_repo:latest .
+            docker build -f Dockerfile -t $docker_registry/$docker_repo:latest .
             '''
         }
     }
 
     stage('docker-push') {
         sh '''
-        docker push $docker_server/$docker_repo:$commit_id
+        docker push $docker_registry/$docker_repo:$commit_id
         '''
         if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master') {
             sh '''
-            docker push $docker_server/$docker_repo:latest
+            docker push $docker_registry/$docker_repo:latest
             '''
         }
     }
