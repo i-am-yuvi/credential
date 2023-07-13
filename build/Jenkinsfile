@@ -1,9 +1,9 @@
 node() {
-    withCredentials([string(credentialsId: 'docker_server', variable: 'docker_server')]) {
+    withCredentials([string(credentialsId: 'docker_registry', variable: 'docker_registry')]) {
         properties([
             parameters([
-                string(name: 'docker_repo', defaultValue: 'samagragovernance/credential-ms', description: 'Docker Image Name'),
-                string(name: 'docker_server', defaultValue: "$docker_server", description: 'Docker Registry URL'),                
+                string(name: 'docker_repo', defaultValue: 'samagrax-rcw/credential', description: 'Docker Image Name'),
+                string(name: 'docker_server', defaultValue: "$docker_registry", description: 'Docker Registry URL'),                
             ])
         ])
     }
@@ -38,7 +38,7 @@ node() {
     
     stage('Start deploy job with latest tag') {
          if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master') { 
-                build job: 'ULP/deploy-staging/credential-ms/', parameters: [string(name: 'tag', value: 'latest')]
+                build job: 'RCW/deploy-staging/credential/', parameters: [string(name: 'tag', value: 'latest')]
          }
     }
 }
