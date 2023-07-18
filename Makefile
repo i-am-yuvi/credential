@@ -6,4 +6,4 @@ test:
 	bash setup_vault_gha.sh docker-compose-test.yml vault-test
 	docker-compose -f docker-compose-test.yml up -d identity-test
 	docker-compose -f docker-compose-test.yml up -d schema-test
-	docker-compose -f docker-compose-test.yml up --abort-on-container-exit credential-test
+	docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit credential-test
