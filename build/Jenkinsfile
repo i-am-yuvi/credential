@@ -26,6 +26,9 @@ node() {
     }
 
     stage('docker-push') {
+        withVault(configuration: [timeout: 60, vaultCredentialId: '34f93a21-be32-42fd-adbd-6c7b2c66d2cb', vaultUrl: 'http://vault:8200'], vaultSecrets: [[path: '/secret/registry_secret', secretValues: [[envVar: 'registry_user', vaultKey: 'username'], [envVar: 'registry_pass', vaultKey: 'password']]]]) {
+            sh 'docker login -u $registry_user -p registry_pass'
+        }
         sh '''
         docker push $docker_registry/$docker_repo:$commit_id
         '''
